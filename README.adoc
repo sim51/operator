@@ -1,0 +1,14 @@
+= Operator
+
+A cli manager for Neo4j.
+
+== TODO
+
+* Be able to launch the editor
+* dump for neo4j import
+* parse (multiple?) log files with corresponding timestamp
+* monitoring (cluster)
+* list queries with locks and kill and explain ? (cluster)
+* parse query logs and show the most slow
+
+* Add the stream way for cypher
