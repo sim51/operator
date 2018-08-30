@@ -11,6 +11,7 @@ import disconnect from './command/disconnect';
 import indexes from './command/indexes';
 import labels from './command/labels';
 import properties from './command/properties';
+import queries from './command/queries/index';
 import relationshipTypes from './command/relationshipTypes';
 import schema from './command/schema';
 import sysinfo from './command/sysinfo';
@@ -29,6 +30,7 @@ const commands: Command[] = [
   indexes,
   labels,
   properties,
+  queries,
   relationshipTypes,
   schema,
   sysinfo

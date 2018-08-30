@@ -25,7 +25,7 @@ class Schema extends Neo4jCommand {
   }
 
   execute = async (vorpal: any, args: any): Promise<any> => {
-    this.checkConnection(vorpal, args.options);
+    await this.checkConnection(vorpal, args.options);
 
     // Generate the JSON schema
     const schema = await global['neo4j'].schema(args.options['ignore-labels'] || null, args.options['ignore-types'] || null);

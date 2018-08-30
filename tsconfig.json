@@ -4,6 +4,7 @@
     "outDir": "./dist",
     "sourceMap": true,
     "declaration": true,
+    "jsx": "react",
     "moduleResolution": "node",
     "lib": [
       "es2017",

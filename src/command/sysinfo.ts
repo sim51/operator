@@ -19,7 +19,7 @@ class Sysinfo extends Neo4jCommand {
   }
 
   execute = async (vorpal: any, args: any): Promise<any> => {
-    this.checkConnection(vorpal, args.options);
+    await this.checkConnection(vorpal, args.options);
     const query = `call dbms.queryJmx("org.neo4j:instance=kernel#0,name=Store file sizes") yield attributes
                        with  keys(attributes) as k , attributes
                        unwind k as row

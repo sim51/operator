@@ -7,18 +7,12 @@ export default class Neo4jService {
 
   // The neo4j driver instance
   private driver: any;
-  private url: string;
-  private user: string;
 
   /**
    * Constructor.
-   * @param {string} url Connection url to the database (ex: bolt://localhost)
-   * @param {string} user User login of the database
    * @param {string} password User password of the database
    */
   constructor(url: string, user: string, password: string) {
-    this.url = url;
-    this.user = user;
     this.driver = Neo4j.v1.driver(url, Neo4j.v1.auth.basic(user, password), { disableLosslessIntegers: true });
   }
 

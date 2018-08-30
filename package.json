@@ -24,15 +24,22 @@
   },
   "dependencies": {
     "ascii-table": "^0.0.9",
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.8.5",
     "json2csv": "^4.2.1",
     "neo4j-driver": "^1.6.2",
+    "react": "^16.4.2",
+    "react-blessed": "^0.2.1",
     "viz.js": "^2.0.0",
     "vorpal": "^1.12.0"
   },
   "devDependencies": {
     "@types/node": "^10.5.7",
+    "@types/react": "^16.4.9",
     "ava": "^0.25.0",
     "nodemon": "^1.18.3",
+    "ts-loader": "^4.4.2",
+    "tsd": "^0.6.5",
     "typescript": "^3.0.1"
   }
 }

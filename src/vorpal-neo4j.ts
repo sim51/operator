@@ -15,7 +15,7 @@ export abstract class Neo4jCommand extends Command {
     [
       new Option('-b, --bolt <url>', 'Neo4j bolt uri', ['bolt://localhost:7687']),
       new Option('-u, --user <user>', 'Neo4j User', ['neo4j']),
-      new Option('-p, --password <password>', 'Neo4j Password', [])
+      new Option('-p, --password <password>', 'Neo4j Password', ['neo4j'])
     ].forEach((option: Option) => {
       this.options.push(option);
     });
@@ -25,11 +25,12 @@ export abstract class Neo4jCommand extends Command {
     if (!global['neo4j']) {
       let connected: boolean = false;
       let firstTime = true;
+      let neo4j: Neo4jService = null;
 
       while (!connected) {
-        global['neo4j'] = new Neo4jService(answers.bolt || this.defaultBolt, answers.user || this.defaultUser, answers.password || this.defaultPassword);
         try {
-          let result = await global['neo4j'].cypher('RETURN 1');
+          neo4j = new Neo4jService(answers.bolt || this.defaultBolt, answers.user || this.defaultUser, answers.password || this.defaultPassword);
+          let result = await neo4j.cypher('RETURN 1');
           connected = true;
           if (!quiet)
             vorpal.log(chalk.green(`Connected to ${answers.bolt || this.defaultBolt} as ${answers.user || this.defaultUser}`));
@@ -38,21 +39,27 @@ export abstract class Neo4jCommand extends Command {
           if (!firstTime)
             vorpal.log(chalk.red(e.message));
         }
+
         firstTime = false;
         if (!connected) {
           answers = await this.prompt(vorpal, answers);
+        }
+        else {
+          global['neo4j'] = neo4j;
+          vorpal.delimiter(`operator ${answers.user || this.defaultUser}@${answers.bolt || this.defaultBolt} #`);
         }
       }
     }
   }
 
   private prompt = async (vorpal: any, answers: any): Promise<any> => {
-    return new Promise<any[]>((resolve, reject) => {
-      const questions: any[] = [
-        { type: 'input', name: 'bolt', message: 'Bolt url: ', default: answers.bolt || this.defaultBolt },
-        { type: 'input', name: 'user', message: 'Username: ', default: answers.user || this.defaultUser },
-        { type: 'password', name: 'password', message: 'Password:', default: answers.password || this.defaultPassword }
-      ];
+    const questions: any[] = [
+      { type: 'input', name: 'bolt', message: 'Bolt url: ', default: answers.bolt || this.defaultBolt },
+      { type: 'input', name: 'user', message: 'Username: ', default: answers.user || this.defaultUser },
+      { type: 'password', name: 'password', message: 'Password:', default: answers.password || this.defaultPassword }
+    ];
+
+    return new Promise<any>((resolve, reject) => {
       vorpal.activeCommand.prompt(questions, (answers) => {
         resolve(answers);
       });
